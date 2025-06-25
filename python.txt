@@ -1,0 +1,131 @@
+1. import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Sorting by date
+df_sorted = df.sort_values('Date')
+
+# Line plot: Revenue trend over time
+plt.figure(figsize=(8, 4))
+plt.plot(df_sorted['Date'], df_sorted['Revenue'], marker='*')
+plt.title('Revenue Trend Over Time')
+plt.xlabel('Date')
+plt.ylabel('Revenue')
+plt.grid(True)
+plt.xticks(rotation=45)
+plt.tight_layout()
+plt.show()
+2.
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Frequency distribution of products sold
+product_counts = df['Product'].value_counts()
+print("Product Frequency:\n", product_counts)
+
+# Plotting: Units Sold distribution
+plt.figure(figsize=(6, 4))
+sns.histplot(df['Units_Sold'], bins=5, kde=True,color='red')
+plt.title('Units Sold Distribution')
+plt.xlabel('Units Sold')
+plt.ylabel('Frequency')
+plt.show()
+3
+# Categorize ratings for simplicity
+df['Rating_Category'] = pd.cut(df['Customer_Rating'], bins=[4.0, 4.3, 4.6, 4.9],
+                               labels=['Low', 'Medium', 'High'])
+
+# Frequency of rating categories
+rating_freq = df['Rating_Category'].value_counts()
+print("Rating Categories:\n", rating_freq)
+
+# Bar graph of rating categories
+plt.figure(figsize=(6, 4))
+rating_freq.plot(kind='bar', color='blue')
+plt.title('Customer Rating Categories')
+plt.xlabel('Rating Level')
+plt.ylabel('Number of Customers')
+plt.show()
+4
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Scatter plot: Revenue vs Units Sold
+plt.figure(figsize=(6, 4))
+sns.scatterplot(x='Units_Sold', y='Revenue', data=df,c='fuchsia')
+plt.title('Revenue vs Units Sold')
+plt.xlabel('Units Sold')
+plt.ylabel('Revenue')
+plt.grid(True)
+plt.show()
+
+# Correlation
+correlation = df['Units_Sold'].corr(df['Revenue'])
+print("Correlation between Units Sold and Revenue:", round(correlation, 2))
+5
+# Mean, Median, Mode for Profit
+mean_profit = df['Profit'].mean()
+median_profit = df['Profit'].median()
+mode_profit = df['Profit'].mode()[0]
+
+print("Mean Profit:", mean_profit)
+print("Median Profit:", median_profit)
+print("Mode Profit:", mode_profit)
+
+# Group by Product and calculate std deviation of Revenue
+revenue_std = df.groupby('Product')['Revenue'].std()
+
+print("Standard Deviation of Revenue by Product:")
+print(revenue_std)
+6
+# Marginal probability: P(Product = Laptop)
+prob_laptop = (df['Product'] == 'Laptop').mean()
+
+# Joint probability: P(Product = Laptop and Region = North)
+prob_joint = ((df['Product'] == 'Laptop') & (df['Region'] == 'North')).mean()
+
+# Marginal for Region = North
+prob_north = (df['Region'] == 'North').mean()
+
+# Conditional probability: P(Region = North | Product = Laptop)
+prob_cond = prob_joint / prob_laptop
+
+# Union probability: P(Laptop or North) = P(A) + P(B) - P(A and B)
+prob_union = prob_laptop + prob_north - prob_joint
+
+print("P(Laptop):", round(prob_laptop, 2))
+print("P(North):", round(prob_north, 2))
+print("P(Laptop ∩ North):", round(prob_joint, 2))
+print("P(North | Laptop):", round(prob_cond, 2))
+print("P(Laptop ∪ North):", round(prob_union, 2))
+
+7
+# Convert to monthly sales totals
+monthly_sales = df.resample('M', on='Date')['Revenue'].sum()
+
+# Plotting the trend
+import matplotlib.pyplot as plt
+
+plt.figure(figsize=(7, 4))
+monthly_sales.plot(marker='*',color='orange')
+plt.title('Monthly Revenue Trend')
+plt.xlabel('Month')
+plt.ylabel('Total Revenue')
+plt.grid(True)
+plt.show()
+8
+from scipy.stats import chi2_contingency
+
+# Cross-tab between Sales Rep and Product (simulated demographic vs preference)
+contingency_table = pd.crosstab(df['Sales_Rep'], df['Product'])
+contingency_table
+# Chi-squared test
+chi2, p, dof, expected = chi2_contingency(contingency_table)
+
+print("Chi-squared value:", round(chi2, 2))
+print("P-value:", round(p, 4))
+if p < 0.05:
+    print("There is a significant relationship between Sales Rep and Product preference.")
+else:
+    print("No significant relationship found.")
+
+
