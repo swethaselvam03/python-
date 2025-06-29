@@ -1,0 +1,102 @@
+9
+import numpy as np
+from scipy.stats import poisson
+import matplotlib.pyplot as plt
+
+# Simulate Poisson distribution
+x = np.arange(0, 11) # possible number of arrivals
+lambda_val = 4
+probs = poisson.pmf(x, mu=lambda_val)
+
+# Plot the distribution
+plt.figure(figsize=(6, 4))
+plt.bar(x, probs, color='lightgreen')
+plt.title('Poisson Distribution (Customer Arrivals per Hour)')
+plt.xlabel('Number of Customers')
+plt.ylabel('Probability')
+plt.grid(True)
+plt.show()
+
+10
+from scipy.stats import hypergeom
+# Parameters: M = population size, n = total defectives, N = sample size
+M = 20 # total products
+n = 5 # defective products
+N = 6 # sample taken
+# Probability of getting exactly 2 defective items
+prob_2_defectives = hypergeom.pmf(2, M, n, N)
+print("P(Exactly 2 defectives in sample):", round(prob_2_defectives, 4))
+
+11
+
+import numpy as np
+import matplotlib.pyplot as plt
+# Simulate 1000 random outcomes between 1 and 6
+results = np.random.randint(1, 7, size=1000)
+# Plot the frequency of outcomes
+plt.hist(results, bins=np.arange(0.5, 7.5, 1), edgecolor='black')
+plt.title('Uniform Distribution Simulation (Die Roll)')
+plt.xlabel('Game Outcome')
+plt.ylabel('Frequency')
+plt.xticks(range(1, 7))
+plt.grid(True)
+plt.show()
+
+12
+
+import pandas as pd
+data = {
+ 'Name': ['Amit', 'Sana', 'Raj', 'Pooja', 'Karan'],
+ 'Math': [85, 72, 78, 88, 95],
+ 'Science': [91, 79, 69, 92, 89],
+ 'English': [76, 81, 74, 90, 86]
+}
+df = pd.DataFrame(data)
+df['Average'] = df[['Math', 'Science', 'English']].mean(axis=1)
+filtered_df = df[(df['Math'] > 75) & (df['Science'] > 75) & (df['English'] > 75)]
+sorted_df = filtered_df.sort_values(by='Average', ascending=False)
+sorted_df.to_csv("top_students.csv", index=False)
+print(sorted_df)
+
+13
+
+import numpy as np
+arr = np.random.randint(10, 100, 24)
+arr_2d = arr.reshape(4, 6)
+print("2D Array:\n", arr_2d)
+row_sum = arr_2d.sum(axis=1)
+col_sum = arr_2d.sum(axis=0)
+print("Row-wise Sum:", row_sum)
+print("Column-wise Sum:", col_sum)
+even_numbers = arr_2d[arr_2d % 2 == 0]
+print("Even Numbers:", even_numbers)
+flattened = arr_2d.flatten()
+print("Flattened Array:", flattened)
+
+14
+import numpy as np
+import matplotlib.pyplot as plt
+arr = np.random.randn(1000)
+mean = np.mean(arr)
+median = np.median(arr)
+std = np.std(arr)
+var = np.var(arr)
+print(f"Mean: {mean}, Median: {median}, Std: {std}, Variance: {var}")
+plt.hist(arr, bins=30, color='skyblue')
+plt.title("Histogram of Random Data")
+plt.show()
+
+15
+
+import pandas as pd
+data = {
+ 'Product': ['Pen', 'Notebook', 'Bag', 'Bottle', 'Pencil'],
+ 'Price': [20, 50, 400, 120, 10],
+ 'Quantity': [10, 5, 2, 3, 25]
+}
+df = pd.DataFrame(data)
+df['Total'] = df['Price'] * df['Quantity']
+filtered = df[df['Total'] > 500]
+sorted_df = filtered.sort_values(by='Total', ascending=False)
+sorted_df.to_excel("high_value_products.xlsx", index=False)
+print(sorted_df)
